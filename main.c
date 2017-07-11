@@ -130,6 +130,24 @@ int main (int argc , char* argv [])
             address_long = strtoul ( address, NULL, _STRING_LEN_16_ );
             if(IO_DEBUG) printf("address_long = %x \n", address_long);
 
+            /* unlock SCU */
+            if((address_long && 0xfffff000) == 0x1e6e2000)
+            {
+            	u32_data = 0x1688A8A8;
+            	table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf3, 0x00, (unsigned char)(address_long), 0x00);
+				table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf2, 0x00, (unsigned char)(address_long>>8), 0x00);
+				table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf1, 0x00, (unsigned char)(address_long>>16), 0x00);
+				table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf0, 0x00, (unsigned char)(address_long>>24), 0x00);
+				table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf7, 0x00, (unsigned char)(u32_data), 0x00);
+				table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf6, 0x00, (unsigned char)(u32_data>>8), 0x00);
+				table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf5, 0x00, (unsigned char)(u32_data>>16), 0x00);
+				table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf4, 0x00, (unsigned char)(u32_data>>24), 0x00);
+
+				get_privilege_level();
+				table_operate(ahb_bus_write_tab,ahb_bus_write_tab_count, 1);
+				release_privilege_level();
+            }
+
             table_modify(ahb_bus_read_tab, ahb_bus_read_tab_count, LPC2AHB_LDN, 0xf3, 0x00, (unsigned char)(address_long), 0x00);
 			table_modify(ahb_bus_read_tab, ahb_bus_read_tab_count, LPC2AHB_LDN, 0xf2, 0x00, (unsigned char)(address_long>>8), 0x00);
 			table_modify(ahb_bus_read_tab, ahb_bus_read_tab_count, LPC2AHB_LDN, 0xf1, 0x00, (unsigned char)(address_long>>16), 0x00);
@@ -142,7 +160,25 @@ int main (int argc , char* argv [])
 
 			get_data(ahb_bus_read_tab,ahb_bus_read_tab_count,LPC2AHB_LDN,&u32_data);
 
-			printf("%lx: %lx \n", address_long, u32_data);
+			printf("%lx: %08x \n", address_long, u32_data);
+
+			/* lock SCU again*/
+            if((address_long && 0xfffff000) == 0x1e6e2000)
+            {
+            	u32_data = 0;
+            	table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf3, 0x00, (unsigned char)(address_long), 0x00);
+				table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf2, 0x00, (unsigned char)(address_long>>8), 0x00);
+				table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf1, 0x00, (unsigned char)(address_long>>16), 0x00);
+				table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf0, 0x00, (unsigned char)(address_long>>24), 0x00);
+				table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf7, 0x00, (unsigned char)(u32_data), 0x00);
+				table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf6, 0x00, (unsigned char)(u32_data>>8), 0x00);
+				table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf5, 0x00, (unsigned char)(u32_data>>16), 0x00);
+				table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf4, 0x00, (unsigned char)(u32_data>>24), 0x00);
+
+				get_privilege_level();
+				table_operate(ahb_bus_write_tab,ahb_bus_write_tab_count, 1);
+				release_privilege_level();
+            }
         }
     }
 	// Write operation
@@ -174,6 +210,24 @@ int main (int argc , char* argv [])
         u32_data = strtoul ( data, NULL, _STRING_LEN_16_ );
         if(IO_DEBUG) printf("address_long = %x, u32_data = %x \n", address_long, u32_data);
 
+        /* unlock SCU */
+        if((address_long && 0xfffff000) == 0x1e6e2000)
+        {
+            u32_data = 0x1688A8A8;
+            table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf3, 0x00, (unsigned char)(address_long), 0x00);
+			table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf2, 0x00, (unsigned char)(address_long>>8), 0x00);
+			table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf1, 0x00, (unsigned char)(address_long>>16), 0x00);
+			table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf0, 0x00, (unsigned char)(address_long>>24), 0x00);
+			table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf7, 0x00, (unsigned char)(u32_data), 0x00);
+			table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf6, 0x00, (unsigned char)(u32_data>>8), 0x00);
+			table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf5, 0x00, (unsigned char)(u32_data>>16), 0x00);
+			table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf4, 0x00, (unsigned char)(u32_data>>24), 0x00);
+
+			get_privilege_level();
+			table_operate(ahb_bus_write_tab,ahb_bus_write_tab_count, 1);
+			release_privilege_level();
+        }
+
         table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf3, 0x00, (unsigned char)(address_long), 0x00);
 		table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf2, 0x00, (unsigned char)(address_long>>8), 0x00);
 		table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf1, 0x00, (unsigned char)(address_long>>16), 0x00);
@@ -187,7 +241,23 @@ int main (int argc , char* argv [])
 		table_operate(ahb_bus_write_tab,ahb_bus_write_tab_count, 1);
 		release_privilege_level();
 
-		get_data(ahb_bus_write_tab,ahb_bus_write_tab_count,LPC2AHB_LDN,&u32_data);
+		/* unlock SCU */
+        if((address_long && 0xfffff000) == 0x1e6e2000)
+        {
+            u32_data = 0;
+            table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf3, 0x00, (unsigned char)(address_long), 0x00);
+			table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf2, 0x00, (unsigned char)(address_long>>8), 0x00);
+			table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf1, 0x00, (unsigned char)(address_long>>16), 0x00);
+			table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf0, 0x00, (unsigned char)(address_long>>24), 0x00);
+			table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf7, 0x00, (unsigned char)(u32_data), 0x00);
+			table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf6, 0x00, (unsigned char)(u32_data>>8), 0x00);
+			table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf5, 0x00, (unsigned char)(u32_data>>16), 0x00);
+			table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf4, 0x00, (unsigned char)(u32_data>>24), 0x00);
+
+			get_privilege_level();
+			table_operate(ahb_bus_write_tab,ahb_bus_write_tab_count, 1);
+			release_privilege_level();
+        }
     }
 
 	//printf("data read = %x \n", u32_data);
