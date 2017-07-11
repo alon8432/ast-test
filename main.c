@@ -35,7 +35,7 @@ static const char *optstring = "a:d:hrw";
 static void show_usage()
 {
 	const char * const usage_text = "\
-	Usage :	regmemapp -[r|w] -a -l -d \n\
+	Usage :	ast_test -[r|w] -a -l -d \n\
 	Options:\n\
 		-r|w,	mode of operation to read/write \n\
 		-a,	address to read/write ( address in hex format )\n\
