@@ -136,11 +136,11 @@ int get_data(RegAndOr *dest, int count, unsigned char ldn, unsigned *pdata)
 	pdata[3] = dest[n+3].data;
 */
 	temp_data = dest[n].data << 24 | dest[n+1].data << 16 | dest[n+2].data << 8 | dest[n+3].data;
-	if(IO_DEBUG) printf("%lx \n", temp_data);
+	if(IO_DEBUG) printf("%x \n", temp_data);
 
 	*pdata = temp_data;
 
-	if(IO_DEBUG) printf("%lx \n", *pdata);
+	if(IO_DEBUG) printf("%x \n", *pdata);
 	//printf("%02x %02x %02x %02x \n", pdata[0], pdata[1], pdata[2], pdata[3]);
 	return 0;
 }

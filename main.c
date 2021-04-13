@@ -128,10 +128,10 @@ int main (int argc , char* argv [])
                 return 0;
             }
             address_long = strtoul ( address, NULL, _STRING_LEN_16_ );
-            if(IO_DEBUG) printf("address_long = %x \n", address_long);
+            if(IO_DEBUG) printf("address_long = %lx \n", address_long);
 
             /* unlock SCU */
-            if((address_long && 0xfffff000) == 0x1e6e2000)
+            if((address_long & 0xfffff000) == 0x1e6e2000)
             {
             	u32_data = 0x1688A8A8;
             	table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf3, 0x00, (unsigned char)(address_long), 0x00);
@@ -163,7 +163,7 @@ int main (int argc , char* argv [])
 			printf("%lx: %08x \n", address_long, u32_data);
 
 			/* lock SCU again*/
-            if((address_long && 0xfffff000) == 0x1e6e2000)
+            if((address_long & 0xfffff000) == 0x1e6e2000)
             {
             	u32_data = 0;
             	table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf3, 0x00, (unsigned char)(address_long), 0x00);
@@ -208,10 +208,10 @@ int main (int argc , char* argv [])
         if(IO_DEBUG) printf( " write_format = %c  address = %s data = %s \n", write_format, address, data );
         address_long = strtoul ( address, NULL, _STRING_LEN_16_ );
         u32_data = strtoul ( data, NULL, _STRING_LEN_16_ );
-        if(IO_DEBUG) printf("address_long = %x, u32_data = %x \n", address_long, u32_data);
+        if(IO_DEBUG) printf("address_long = %lx, u32_data = %x \n", address_long, u32_data);
 
         /* unlock SCU */
-        if((address_long && 0xfffff000) == 0x1e6e2000)
+        if((address_long & 0xfffff000) == 0x1e6e2000)
         {
             u32_data = 0x1688A8A8;
             table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf3, 0x00, (unsigned char)(address_long), 0x00);
@@ -242,7 +242,7 @@ int main (int argc , char* argv [])
 		release_privilege_level();
 
 		/* unlock SCU */
-        if((address_long && 0xfffff000) == 0x1e6e2000)
+        if((address_long & 0xfffff000) == 0x1e6e2000)
         {
             u32_data = 0;
             table_modify(ahb_bus_write_tab, ahb_bus_write_tab_count, LPC2AHB_LDN, 0xf3, 0x00, (unsigned char)(address_long), 0x00);
